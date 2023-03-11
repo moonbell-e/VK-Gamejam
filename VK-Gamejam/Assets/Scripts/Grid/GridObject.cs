@@ -11,9 +11,6 @@ namespace Grid
         [SerializeField] private Transform _rightCorner;
 
         private CellKeeper _cells;
-        private Camera _camera;
-        private Vector2Int _curCell;
-        private bool _cellSelected;
 
         public Vector2 TopCorner => _topCorner.position;
         public Vector2 BottomCorner => _bottomCorner.position;
@@ -22,37 +19,54 @@ namespace Grid
 
         private void Awake()
         {
-            _camera = Camera.main;
             _cells = new CellKeeper(TopCorner, BottomCorner, LeftCorner, RightCorner);
-            _cellSelected = false;
-            _curCell = Vector2Int.zero;
         }
 
-        public void Update()
+        public bool TryPlaceObject(Vector2 point, PlaceableObject obj)
         {
-            var point = _camera.ScreenToWorldPoint(Input.mousePosition);
-            if(IsInBorders(point))
+            if (IsInBorders(point))
             {
-                if (_cellSelected == false)
+                Vector2Int[,] cellsPoints = new Vector2Int[obj.X, obj.Y];
+
+                var cellPoint = _cells.PointOnCell(point);
+
+                if (cellPoint.x + obj.X > _cells.X || cellPoint.y + obj.Y > _cells.Y) return false;
+                for (int x = 0; x < obj.X; x++)
                 {
-                    Debug.Log("Target locked!");
-                    _cellSelected = true;
+                    for (int y = 0; y < obj.Y; y++)
+                    {
+                        cellsPoints[x, y] = new Vector2Int(cellPoint.x + x, cellPoint.y + y);
+                        if (_cells.IsEmpty[cellPoint.x + x, cellPoint.y + y] == false) return false;
+                    }
                 }
-                else _cells.IsEmpty[_curCell.x, _curCell.y] = true;
 
-                _curCell = _cells.PointOnCell(point);
-                _cells.IsEmpty[_curCell.x, _curCell.y] = false;
-
-                Debug.Log("Coordinate: X " + _curCell.x + " Y " + _curCell.y);
-                return;
+                foreach (Vector2Int cell in cellsPoints)
+                    _cells.PlaceObject(cell.x, cell.y, obj);
+                obj.Place(_cells.Pivots[cellPoint.x, cellPoint.y], cellPoint.x, cellPoint.y);
+                return true;
             }
+            return false;
+        }
 
-            if (_cellSelected)
+        public bool TryTakeObject(Vector2 point, out PlaceableObject obj)
+        {
+            obj = null;
+            if (IsInBorders(point))
             {
-                _cells.IsEmpty[_curCell.x, _curCell.y] = true;
-                _cellSelected = false;
-            }    
-            Debug.Log("Lost target!");
+                var cellPoint = _cells.PointOnCell(point);
+                if (_cells.IsEmpty[cellPoint.x, cellPoint.y]) return false;
+
+                obj = _cells.TakeObject(cellPoint.x, cellPoint.y);
+                for (int x = 0; x < obj.X; x++)
+                {
+                    for (int y = 0; y < obj.Y; y++)
+                    {
+                        _cells.CleareCell(obj.PivotPoint.x + x, obj.PivotPoint.y + y);
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
         public bool IsInBorders(Vector2 point)
@@ -165,6 +179,7 @@ namespace Grid
         private Vector2[,] _cellsPivots;
 
         private bool[,] _cellsStatus;
+        private PlaceableObject[,] _placedObjects;
 
         public Vector2[,] Pivots => _cellsPivots;
         public bool[,] IsEmpty => _cellsStatus;
@@ -184,7 +199,8 @@ namespace Grid
             
             _cellsPivots = new Vector2[_x,_y];
             _cellsStatus = new bool[_x,_y];
-            
+            _placedObjects = new PlaceableObject[_x, _y];
+
             Vector3 point1 = Vector3.zero;
             Vector3 point2 = Vector3.zero;
             Vector3 point3 = Vector3.zero;
@@ -254,6 +270,23 @@ namespace Grid
             if (result.y == -1) result.y = _y - 1;
 
             return result;
+        }
+
+        public void PlaceObject(int x, int y, PlaceableObject obj)
+        {
+            _cellsStatus[x, y] = false;
+            _placedObjects[x, y] = obj;
+        }
+
+        public PlaceableObject TakeObject(int x, int y)
+        {
+            return _placedObjects[x, y];
+        }
+
+        public void CleareCell(int x, int y)
+        {
+            _cellsStatus[x, y] = true;
+            _placedObjects[x, y] = null;
         }
     }
 }
