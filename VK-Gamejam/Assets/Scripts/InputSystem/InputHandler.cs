@@ -8,7 +8,7 @@ namespace InputSystem
         private GreedsKeeper _greedsKeeper;
         private Camera _camera;
 
-        [SerializeField] private PlaceableObject _objectInHand;
+        private PlaceableObject _objectInHand;
 
         private void Awake()
         {
@@ -34,6 +34,11 @@ namespace InputSystem
                     _greedsKeeper.TryTakeObject(curcourPoint, out _objectInHand);
                 }
             }
+        }
+
+        public void TakeObjectInHand(PlaceableObject obj)
+        {
+            _objectInHand = obj;
         }
     }
 }

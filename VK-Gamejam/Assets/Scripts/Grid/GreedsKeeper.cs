@@ -8,12 +8,17 @@ namespace Grid
 
         public bool TryPlaceObject(Vector2 point, PlaceableObject obj)
         {
-            return _grids[0].TryPlaceObject(point, obj);
+            foreach (var grid in _grids)
+                if(grid.TryPlaceObject(point, obj) == true) return true;
+            return false;
         }
 
         public bool TryTakeObject(Vector2 point, out PlaceableObject obj)
         {
-            return _grids[0].TryTakeObject(point, out obj);
+            obj = null;
+            foreach (var grid in _grids)
+                if (grid.TryTakeObject(point, out obj) == true) return true;
+            return false;
         }
     }
 }
