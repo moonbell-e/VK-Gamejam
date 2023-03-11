@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using System;
+
+public class VcaController : MonoBehaviour
+{
+    private FMOD.Studio.VCA _vcaController;
+    private Slider _slider;
+    public string VcaName;
+
+    private void Awake()
+    {
+        _vcaController = FMODUnity.RuntimeManager.GetVCA("vca:/" + VcaName);
+        _slider = GetComponent<Slider>();
+    }
+
+    public void SetVolume(float volume)
+    {
+        _vcaController.setVolume(volume);
+    }
+
+    public void ResetVolume()
+    {
+        _vcaController.setVolume(1f);
+        _slider.value = 1f;
+    }
+}
