@@ -3,7 +3,7 @@ using Grid;
 using FMODUnity;
 
 namespace InputSystem
-{ 
+{
     public class InputHandler : MonoBehaviour
     {
         [SerializeField] private EventReference _pickupSound;
@@ -11,11 +11,24 @@ namespace InputSystem
 
         private GridsKeeper _gridsKeeper;
         private Camera _camera;
+        private static InputHandler _instance;
 
-        private PlaceableObject _objectInHand;
+        [SerializeField] private PlaceableObject _objectInHand;
+
+        public PlaceableObject ObjectInHand => _objectInHand;
+        public static InputHandler Instance { get { return _instance; } }
 
         private void Awake()
         {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
+
             _gridsKeeper = FindObjectOfType<GridsKeeper>();
             _camera = Camera.main;
         }
@@ -36,7 +49,7 @@ namespace InputSystem
                         _objectInHand = null;
                         RuntimeManager.PlayOneShot(_placeSound);
                     }
-                } 
+                }
                 else
                 {
                     if (_gridsKeeper.TryTakeObject(curcourPoint, out _objectInHand) == false)
@@ -56,6 +69,11 @@ namespace InputSystem
             }
             _objectInHand = obj;
             return true;
+        }
+
+        public void SetPlaceableObject(PlaceableObject placeable)
+        {
+            _objectInHand = placeable;
         }
     }
 }
