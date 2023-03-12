@@ -129,7 +129,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d7101c434751b4baae91ead951f475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showGrid: 0
+  _showGrid: 1
+  _noScoreChange: 0
+  _movable: 1
+  _rotatetable: 0
+  _type: 1
+  _reverse: 1
+  _typeNeeded: 0
   _x: 5
   _y: 5
   _grids: []

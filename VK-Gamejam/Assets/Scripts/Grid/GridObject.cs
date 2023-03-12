@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
+using GameManagers;
 
 namespace Grid
 {
@@ -25,7 +25,6 @@ namespace Grid
         public Vector2 LeftCorner => _leftCorner.position;
         public Vector2 RightCorner => _rightCorner.position;
         public int Layer => _gridLayer;
-        public GridTypes Type => _type;
         public bool CanBeMoved => _cells.CanBeMoved;
         public int Size => _cells.X + _cells.Y;
 
@@ -102,6 +101,7 @@ namespace Grid
                 foreach (Vector2Int cell in cellsPoints)
                     _cells.PlaceObject(cell.x, cell.y, obj);
                 obj.Place(_cells.Pivots[cellPoint.x, cellPoint.y], cellPoint.x, cellPoint.y, Layer);
+                ScoreCounter.Instance.AddScore(obj.CountScore(_type));
                 return true;
             }
             return false;
@@ -116,6 +116,8 @@ namespace Grid
                 if (_cells.IsEmpty[cellPoint.x, cellPoint.y]) return false;
 
                 obj = _cells.TakeObject(cellPoint.x, cellPoint.y);
+                if (obj.Movable == false) return false;
+
                 if (obj.Grids != null && obj.Grids.Length > 0)
                 {
                     foreach (var grid in obj.Grids)
@@ -132,6 +134,7 @@ namespace Grid
                         _cells.CleareCell(obj.PivotPoint.x + x, obj.PivotPoint.y + y);
                     }
                 }
+                ScoreCounter.Instance.RemoveScore(obj.CountScore(_type));
                 return true;
             }
             return false;
@@ -163,8 +166,8 @@ namespace Grid
         {
             if (_showGrid == false) return;
 
-            int X = Mathf.RoundToInt((RightCorner.x - BottomCorner.x) / GridGlobalParameters.SellSizeX);
-            int Y = Mathf.RoundToInt((LeftCorner.y - BottomCorner.y) / GridGlobalParameters.SellSizeY);
+            int X = Mathf.RoundToInt((RightCorner.x - BottomCorner.x) / GlobalParameters.SellSizeX);
+            int Y = Mathf.RoundToInt((LeftCorner.y - BottomCorner.y) / GlobalParameters.SellSizeY);
 
             if (X == 0 || Y == 0) return;
 
@@ -211,7 +214,7 @@ namespace Grid
                         if (_cells.IsEmpty[x, y] == false) continue;
 
                         Vector3 point = _cells.Pivots[x, y];
-                        point.y += GridGlobalParameters.SellSizeY;
+                        point.y += GlobalParameters.SellSizeY;
                         Gizmos.DrawSphere(point, 0.025f);
                     }
                 }
@@ -270,8 +273,8 @@ namespace Grid
             _leftCorner = leftCorner;
             _rightCorner = rightCorner;
 
-            _x = Mathf.RoundToInt((_rightCorner.x - _bottomCorner.x) / GridGlobalParameters.SellSizeX);
-            _y = Mathf.RoundToInt((_leftCorner.y - _bottomCorner.y) / GridGlobalParameters.SellSizeY);
+            _x = Mathf.RoundToInt((_rightCorner.x - _bottomCorner.x) / GlobalParameters.SellSizeX);
+            _y = Mathf.RoundToInt((_leftCorner.y - _bottomCorner.y) / GlobalParameters.SellSizeY);
 
             _canBeMoved = true;
             _cellsTaken = 0;
@@ -375,6 +378,7 @@ namespace Grid
     public enum GridTypes
     { 
         Floor,
-        Table
+        OpenSpace,
+        ClosedSpace
     }
 }

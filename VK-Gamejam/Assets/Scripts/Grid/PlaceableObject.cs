@@ -1,21 +1,24 @@
 using UnityEngine;
+using GameManagers;
 
 namespace Grid
 {
     public class PlaceableObject : MonoBehaviour
     {
+        [Header ("Parameters")]
+        [SerializeField] private bool _showGrid;
+        [SerializeField] private bool _noScoreChange;
+        [SerializeField] private bool _movable;
+        [SerializeField] private bool _rotatetable;
+        
         [Header("Score")]
-        [SerializeField] private int _score;
+        [SerializeField] private PlaceableTypes _type;
         [SerializeField] private bool _reverse;
         [SerializeField] private GridTypes _typeNeeded;
-        [SerializeField] private int _bonus;
-
-        [SerializeField] private bool _showGrid;
 
         [Header("Size")]
         [SerializeField] private int _x;
         [SerializeField] private int _y;
-
         [SerializeField] private GridObject[] _grids;
         
         private Transform _transform;
@@ -23,11 +26,8 @@ namespace Grid
         private GridsKeeper _keeper;
         private Vector2Int _pivotPoint;
 
-
-        public int Score => _score;
-        public bool Reverse => _reverse;
-        public GridTypes Type => _typeNeeded;
-        public int Bonus => _bonus;
+        public bool Movable => _movable;
+        public bool NoScoreChange => _noScoreChange;
         public int X => _x;
         public int Y => _y;
         public Vector2Int PivotPoint => _pivotPoint;
@@ -39,6 +39,47 @@ namespace Grid
             _transform = transform;
             _sprites = GetComponentsInChildren<SpriteRenderer>();
             _keeper = FindObjectOfType<GridsKeeper>();
+        }
+
+        public int CountScore(GridTypes type)
+        {
+            int result, bonus;
+            if (_noScoreChange) return 0;
+            bonus = GetTypeScore(out result);
+            if (_reverse)
+            {
+                if (type != _typeNeeded)
+                    result += bonus;
+            }
+            else
+            {
+                if (type == _typeNeeded)
+                    result += bonus;
+            }
+            return result;
+        }
+
+        public int GetTypeScore(out int result)
+        {
+            int bonus = 0;
+            switch (_type)
+            {
+                case PlaceableTypes.Small:
+                    result = GlobalParameters.SmallObjectScore;
+                    bonus = GlobalParameters.SmallObjectBonus;
+                    break;
+                case PlaceableTypes.Medium:
+                    result = GlobalParameters.MediumObjectScore;
+                    bonus = GlobalParameters.MediumObjectBonus;
+                    break;
+                case PlaceableTypes.Large:
+                    result = GlobalParameters.LargeObjectScore;
+                    break;
+                default:
+                    result = 0;
+                    break;
+            }
+            return bonus;
         }
 
         public void Place(Vector2 point, int x, int y, int layer)
@@ -63,12 +104,14 @@ namespace Grid
 
         public void Move(Vector2 point)
         {
-            point.y -= 2 * GridGlobalParameters.SellSizeY;
+            point.y -= 2 * GlobalParameters.SellSizeY;
             _transform.position = point;
         }
 
         public void RotateObject()
         {
+            if (_rotatetable == false) return;
+
             var x = _x;
             _x = _y;
             _y = x;
@@ -98,11 +141,11 @@ namespace Grid
 
             for (int x = 0; x <= _x; x++)
             {
-                point1.x = pivot.x + GridGlobalParameters.SellSizeX * x;
-                point2.x = pivot.x + GridGlobalParameters.SellSizeX * (x - _x);
+                point1.x = pivot.x + GlobalParameters.SellSizeX * x;
+                point2.x = pivot.x + GlobalParameters.SellSizeX * (x - _x);
 
-                point1.y = pivot.y + GridGlobalParameters.SellSizeY * x;
-                point2.y = pivot.y + GridGlobalParameters.SellSizeY * (x + _x);
+                point1.y = pivot.y + GlobalParameters.SellSizeY * x;
+                point2.y = pivot.y + GlobalParameters.SellSizeY * (x + _x);
 
                 point2 = point1 + (point2 - point1) * _y / _x;
 
@@ -111,11 +154,11 @@ namespace Grid
 
             for (int y = 0; y <= _y; y++)
             {
-                point1.x = pivot.x - GridGlobalParameters.SellSizeX * y;
-                point2.x = pivot.x + GridGlobalParameters.SellSizeX * (_y - y);
+                point1.x = pivot.x - GlobalParameters.SellSizeX * y;
+                point2.x = pivot.x + GlobalParameters.SellSizeX * (_y - y);
 
-                point1.y = pivot.y + GridGlobalParameters.SellSizeY * y;
-                point2.y = pivot.y + GridGlobalParameters.SellSizeY * (y + _y);
+                point1.y = pivot.y + GlobalParameters.SellSizeY * y;
+                point2.y = pivot.y + GlobalParameters.SellSizeY * (y + _y);
 
                 point2 = point1 + (point2 - point1) * _x / _y;
 
@@ -123,5 +166,12 @@ namespace Grid
             }
         }
 #endif
+    }
+
+    public enum PlaceableTypes
+    {
+        Small,
+        Medium,
+        Large
     }
 }

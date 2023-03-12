@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _showGrid: 1
+  _noScoreChange: 0
+  _movable: 1
+  _rotatetable: 1
+  _type: 1
+  _reverse: 1
+  _typeNeeded: 0
   _x: 3
   _y: 3
   _grids: []
