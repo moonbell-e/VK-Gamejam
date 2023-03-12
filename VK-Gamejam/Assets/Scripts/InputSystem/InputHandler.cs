@@ -39,7 +39,7 @@ namespace InputSystem
             if (_objectInHand != null)
             {
                 _objectInHand.Move(curcourPoint);
-                if (Input.GetKeyDown(KeyCode.R))
+                if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Mouse1))
                     RotateObjectInHand();
             }
                 
