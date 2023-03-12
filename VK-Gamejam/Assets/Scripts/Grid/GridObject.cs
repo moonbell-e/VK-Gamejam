@@ -179,8 +179,11 @@ namespace Grid
                 {
                     for (int y = 0; y < _cells.Y; y++)
                     {
-                        if (_cells.IsEmpty[x, y]) 
-                            Gizmos.DrawSphere(_cells.Pivots[x, y], 0.025f);
+                        if (_cells.IsEmpty[x, y] == false) continue;
+
+                        Vector3 point = _cells.Pivots[x, y];
+                        point.y += GridGlobalParameters.SellSizeY;
+                        Gizmos.DrawSphere(point, 0.025f);
                     }
                 }
             }
