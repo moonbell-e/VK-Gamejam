@@ -11,7 +11,7 @@ namespace Grid
 
         private List<GridObject>[] _gridsLayers = new List<GridObject>[20];
 
-        private void Awake()
+        private void Start()
         {
             for (int i = 0; i < _gridsLayers.Length; i++)
                 _gridsLayers[i] = new List<GridObject>();

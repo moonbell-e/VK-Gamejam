@@ -12,8 +12,7 @@ namespace InputSystem
         private GridsKeeper _gridsKeeper;
         private Camera _camera;
         private static InputHandler _instance;
-
-        [SerializeField] private PlaceableObject _objectInHand;
+        private PlaceableObject _objectInHand;
 
         public PlaceableObject ObjectInHand => _objectInHand;
         public static InputHandler Instance { get { return _instance; } }
@@ -83,11 +82,6 @@ namespace InputSystem
             obj.TakeItem();
             _objectInHand = obj;
             return true;
-        }
-
-        public void SetPlaceableObject(PlaceableObject placeable)
-        {
-            _objectInHand = placeable;
         }
     }
 }

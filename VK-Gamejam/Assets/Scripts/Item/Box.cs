@@ -24,7 +24,7 @@ public class Box : MonoBehaviour
         {
             GameObject obj = GetRandomObject();
             PlaceableObject spawnObj = SpawnObject(obj);
-            InputHandler.Instance.SetPlaceableObject(spawnObj);
+            InputHandler.Instance.TakeObjectInHand(spawnObj);
             _objects.Remove(obj);
         }
         else
