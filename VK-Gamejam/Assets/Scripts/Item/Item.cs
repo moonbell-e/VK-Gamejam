@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private string _name;
+    [SerializeField] private Sprite _item;
+    [SerializeField] private Sprite _itemFlipped;
+    [SerializeField] private IsRotate _rotation;
+
+    public enum IsRotate
     {
-        
+        None,
+        Rotate
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(string name, Sprite item, Sprite itemFlipped, IsRotate rotation)
     {
-        
+        _name = name;
+        _item = item;
+        _itemFlipped = itemFlipped;
+        _rotation = rotation;
     }
 }
