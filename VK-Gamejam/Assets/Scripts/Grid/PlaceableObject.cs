@@ -21,6 +21,7 @@ namespace Grid
         public int Y => _y;
         public Vector2Int PivotPoint => _pivotPoint;
         public GridObject Grid => _grid;
+        public Vector2 Position => _transform.position;
 
         private void Awake()
         {
