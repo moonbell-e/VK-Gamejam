@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
+using UnityEngine.SceneManagement;
 
 public class MenuSystem : MonoBehaviour
 { 
     [SerializeField] private Button _fullscreenButton;
     [SerializeField] private Button _settingsButton;
     [SerializeField] private GameObject _settingsPanel;
+    private FMOD.Studio.Bus _busMusic;
+    private FMOD.Studio.Bus _busSound;
+    public string _vcaMusicName;
+    public string _vcaSoundName;
+
 
     private bool _isFullscreen;
     private bool _isShowSettings;
@@ -18,10 +24,25 @@ public class MenuSystem : MonoBehaviour
 
     private void Start()
     {
+        _busMusic = FMODUnity.RuntimeManager.GetBus("bus:/" + _vcaMusicName);
+        _busSound = FMODUnity.RuntimeManager.GetBus("bus:/" + _vcaSoundName);
         _fullscreenButton.onClick.AddListener(() => { SetFullScreen(); });
     }
 
+    public void SetVolumeMusic(int value)
+    {
+        _busMusic.setVolume(value);
+    }  
+    
+    public void SetVolumeSound(int value)
+    {
+        _busSound.setVolume(value);
+    }
 
+    public void ChooseLevel(int index)
+    {
+        SceneManager.LoadScene(index);
+    }
 
     public void SetFullScreen()
     {
