@@ -5,14 +5,14 @@ namespace InputSystem
 { 
     public class InputHandler : MonoBehaviour
     {
-        private GreedsKeeper _greedsKeeper;
+        private GridsKeeper _gridsKeeper;
         private Camera _camera;
 
         private PlaceableObject _objectInHand;
 
         private void Awake()
         {
-            _greedsKeeper = FindObjectOfType<GreedsKeeper>();
+            _gridsKeeper = FindObjectOfType<GridsKeeper>();
             _camera = Camera.main;
         }
 
@@ -21,17 +21,18 @@ namespace InputSystem
             Vector2 curcourPoint = _camera.ScreenToWorldPoint(Input.mousePosition);
 
             if (_objectInHand != null)
-                _objectInHand.Place(curcourPoint, 0, 0);
+                _objectInHand.Place(curcourPoint);
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 if (_objectInHand != null)
                 {
-                    if (_greedsKeeper.TryPlaceObject(curcourPoint, _objectInHand)) _objectInHand = null;
+                    if (_gridsKeeper.TryPlaceObject(curcourPoint, _objectInHand)) _objectInHand = null;
                 } 
                 else
                 {
-                    _greedsKeeper.TryTakeObject(curcourPoint, out _objectInHand);
+                    if (_gridsKeeper.TryTakeObject(curcourPoint, out _objectInHand) == false)
+                        _objectInHand = null;
                 }
             }
         }

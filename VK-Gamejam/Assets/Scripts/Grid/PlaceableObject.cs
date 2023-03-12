@@ -4,26 +4,41 @@ namespace Grid
 {
     public class PlaceableObject : MonoBehaviour
     {
-        [Header ("Size")]
+        [Header("Size")]
         [SerializeField] private int _x;
         [SerializeField] private int _y;
 
+        [SerializeField] private GridObject _grid;
+
         private Transform _transform;
+        private GridsKeeper _keeper;
         private Vector2Int _pivotPoint;
 
         public int X => _x;
         public int Y => _y;
         public Vector2Int PivotPoint => _pivotPoint;
+        public GridObject Grid => _grid;
 
         private void Awake()
         {
             _transform = transform;
+            _keeper = FindObjectOfType<GridsKeeper>();
         }
 
         public void Place(Vector2 point, int x, int y)
         {
             _transform.position = point;
             _pivotPoint = new Vector2Int(x, y);
+
+            if (_grid == null) return;
+            _keeper.AddGrid(_grid);
+            _grid.GenerateCells();
+        }
+
+        public void Place(Vector2 point)
+        {
+            point.y -= 0.1f;
+            _transform.position = point;
         }
 
 #if UNITY_EDITOR

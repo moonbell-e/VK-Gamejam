@@ -10,14 +10,23 @@ namespace Grid
         [SerializeField] private Transform _leftCorner;
         [SerializeField] private Transform _rightCorner;
 
+        [Header ("GridParameters")]
+        [SerializeField] private int _gridLayer;
+
         private CellKeeper _cells;
 
         public Vector2 TopCorner => _topCorner.position;
         public Vector2 BottomCorner => _bottomCorner.position;
         public Vector2 LeftCorner => _leftCorner.position;
         public Vector2 RightCorner => _rightCorner.position;
+        public int Layer => _gridLayer;
 
         private void Awake()
+        {
+            GenerateCells();
+        }
+
+        public void GenerateCells()
         {
             _cells = new CellKeeper(TopCorner, BottomCorner, LeftCorner, RightCorner);
         }
@@ -26,6 +35,7 @@ namespace Grid
         {
             if (IsInBorders(point))
             {
+                if (obj.Grid != null && Layer != 0) return false;
                 Vector2Int[,] cellsPoints = new Vector2Int[obj.X, obj.Y];
 
                 var cellPoint = _cells.PointOnCell(point);
@@ -57,6 +67,8 @@ namespace Grid
                 if (_cells.IsEmpty[cellPoint.x, cellPoint.y]) return false;
 
                 obj = _cells.TakeObject(cellPoint.x, cellPoint.y);
+                if (obj.Grid != null) return false;
+                Debug.Log(obj);
                 for (int x = 0; x < obj.X; x++)
                 {
                     for (int y = 0; y < obj.Y; y++)
@@ -130,16 +142,16 @@ namespace Grid
 
                 Gizmos.DrawLine(point1, point2);
             }
-
+            
+            Gizmos.color = Color.green;
             if (_cells.Pivots != null)
             {
                 for (int x = 0; x < _cells.X; x++)
                 {
                     for (int y = 0; y < _cells.Y; y++)
                     {
-                        if (_cells.IsEmpty[x, y]) Gizmos.color = Color.green;
-                        else Gizmos.color = Color.red;
-                        Gizmos.DrawSphere(_cells.Pivots[x, y], 0.025f);
+                        if (_cells.IsEmpty[x, y]) 
+                            Gizmos.DrawSphere(_cells.Pivots[x, y], 0.025f);
                     }
                 }
             }
