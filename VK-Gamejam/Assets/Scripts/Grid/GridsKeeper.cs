@@ -7,6 +7,8 @@ namespace Grid
     {
         [SerializeField] List<GridObject> _startGrids;
 
+        public static int LayerSize;
+
         private List<GridObject>[] _gridsLayers = new List<GridObject>[10];
 
         private void Awake()
@@ -16,6 +18,8 @@ namespace Grid
 
             foreach (var grid in _startGrids)
                 AddGrid(grid);
+
+            LayerSize = _gridsLayers[0][0].Size;
         }
 
         public bool TryPlaceObject(Vector2 point, PlaceableObject obj)

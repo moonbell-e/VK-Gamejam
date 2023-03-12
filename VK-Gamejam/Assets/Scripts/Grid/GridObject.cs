@@ -24,6 +24,7 @@ namespace Grid
         public Vector2 RightCorner => _rightCorner.position;
         public int Layer => _gridLayer;
         public bool CanBeMoved => _cells.CanBeMoved;
+        public int Size => _cells.X + _cells.Y;
 
         private void Awake()
         {
@@ -74,7 +75,7 @@ namespace Grid
 
                 foreach (Vector2Int cell in cellsPoints)
                     _cells.PlaceObject(cell.x, cell.y, obj);
-                obj.Place(_cells.Pivots[cellPoint.x, cellPoint.y], cellPoint.x, cellPoint.y);
+                obj.Place(_cells.Pivots[cellPoint.x, cellPoint.y], cellPoint.x, cellPoint.y, Layer);
                 return true;
             }
             return false;
