@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 26595
+  controlID: 33951
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 26596
+  controlID: 33952
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,24 +223,24 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
+      scrollPos: {x: 0, y: 0.3999939}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: ca9bffff5ca0ffffeea5ffff12a8ffffd2b5ffff58ceffff5eceffff1ed8ffffdee4ffffece4fffff2e4ffffd4e6ffffd6e7ffffeafaffffecfaffffae620000c2620000727c0000767c0000
+      m_ExpandedIDs: b294ffff5ca0ffffeea5ffff12a8ffffd2b5ffff58ceffff5eceffffdee4ffffece4fffff2e4ffffd4e6ffffd6e7ffffeafaffffecfaffffae620000c2620000727c0000767c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: GameManagers
-        m_OriginalName: GameManagers
+        m_Name: counter
+        m_OriginalName: counter
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 31862
+        m_UserData: -35202
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 4
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 5}
       m_SearchString: 
@@ -269,8 +269,8 @@ MonoBehaviour:
     y: 0
     width: 831.19995
     height: 489.6
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 8}
   m_Panes:
   - {fileID: 8}
@@ -523,9 +523,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.50825953, y: 1.1193458, z: -0.8940828}
+    m_Target: {x: 3.7383544, y: -0.1063854, z: -0.9284932}
     speed: 2
-    m_Value: {x: -0.50825953, y: 1.1193458, z: -0.8940828}
+    m_Value: {x: 3.7933946, y: -0.11013226, z: -0.9277774}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -576,9 +576,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 4.756917
+    m_Target: 1.6621991
     speed: 2
-    m_Value: 4.756917
+    m_Value: 1.5906212
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -627,7 +627,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 26699
+  controlID: 33982
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -695,22 +695,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Sprites/Objects/Large
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Sprites/Objects/Large
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Repository\VK-Gamejam\VK-Gamejam
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 75.80002}
-    m_SelectedIDs: b6630000
-    m_LastClickedID: 25526
-    m_ExpandedIDs: 000000006863000000ca9a3b
+    scrollPos: {x: 0, y: 91.80002}
+    m_SelectedIDs: 22c20000
+    m_LastClickedID: 49698
+    m_ExpandedIDs: 0000000068630000c06300001cc2000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Grid
 {
@@ -67,10 +68,17 @@ namespace Grid
                     }
                 }
 
-                if (obj.Grid != null)
+                if (obj.Grids != null && obj.Grids.Length > 0)
                 {
-                    if (_gridLayer >= obj.Grid.Layer) return false;
-                    else obj.Grid.AddAdditionalLayer(Layer);
+                    if (_gridLayer >= obj.Grids[0].Layer)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        foreach (var grid in obj.Grids)
+                            grid.AddAdditionalLayer(Layer);
+                    }
                 }
 
                 foreach (Vector2Int cell in cellsPoints)
@@ -90,10 +98,13 @@ namespace Grid
                 if (_cells.IsEmpty[cellPoint.x, cellPoint.y]) return false;
 
                 obj = _cells.TakeObject(cellPoint.x, cellPoint.y);
-                if (obj.Grid != null)
+                if (obj.Grids != null && obj.Grids.Length > 0)
                 {
-                    if (obj.Grid.CanBeMoved == false) return false;
-                    else obj.Grid.RemoveAdditionalLayer();
+                    foreach (var grid in obj.Grids)
+                        if (grid.CanBeMoved == false) return false;
+
+                    foreach (var grid in obj.Grids)
+                        grid.RemoveAdditionalLayer();
                 }
 
                 for (int x = 0; x < obj.X; x++)

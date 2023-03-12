@@ -218,7 +218,8 @@ MonoBehaviour:
   _showGrid: 1
   _x: 25
   _y: 29
-  _grid: {fileID: 3116609569856240020}
+  _grids:
+  - {fileID: 3116609569856240020}
 --- !u!1001 &3596488273826969805
 PrefabInstance:
   m_ObjectHideFlags: 0

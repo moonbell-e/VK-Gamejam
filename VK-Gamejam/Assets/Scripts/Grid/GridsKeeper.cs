@@ -9,8 +9,6 @@ namespace Grid
 
         [SerializeField] PlaceableObject[] _startPlaceables;
 
-        public static int LayerSize;
-
         private List<GridObject>[] _gridsLayers = new List<GridObject>[20];
 
         private void Awake()
@@ -23,8 +21,6 @@ namespace Grid
 
             foreach(var obj in _startPlaceables)
                 TryPlaceObject(obj.Position, obj);
-
-            LayerSize = _gridsLayers[0][0].Size;
         }
 
         public bool TryPlaceObject(Vector2 point, PlaceableObject obj)

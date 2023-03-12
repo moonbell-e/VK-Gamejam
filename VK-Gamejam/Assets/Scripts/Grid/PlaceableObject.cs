@@ -10,7 +10,7 @@ namespace Grid
         [SerializeField] private int _x;
         [SerializeField] private int _y;
 
-        [SerializeField] private GridObject _grid;
+        [SerializeField] private GridObject[] _grids;
         
         private Transform _transform;
         private SpriteRenderer _sprite;
@@ -20,7 +20,7 @@ namespace Grid
         public int X => _x;
         public int Y => _y;
         public Vector2Int PivotPoint => _pivotPoint;
-        public GridObject Grid => _grid;
+        public GridObject[] Grids => _grids;
         public Vector2 Position => _transform.position;
 
         private void Awake()
@@ -34,12 +34,15 @@ namespace Grid
         {
             _transform.position = point;
             _pivotPoint = new Vector2Int(x, y);
-            _sprite.sortingOrder = -x - y + layer * GridsKeeper.LayerSize;
+            _sprite.sortingOrder = -x - y;
+            _sprite.sortingLayerName = layer.ToString();
 
-            if (_grid == null) return;
-            _keeper.AddGrid(_grid);
-            _grid.GenerateCells();
-            
+            if (_grids == null) return;
+            foreach (var grid in _grids)
+            {
+                _keeper.AddGrid(grid);
+                grid.GenerateCells();
+            }
         }
 
         public void Move(Vector2 point)
