@@ -43,6 +43,13 @@ namespace Grid
             _transform.position = point;
         }
 
+        public void RotateObject()
+        {
+            var x = _x;
+            _x = _y;
+            _y = x;
+        }
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
