@@ -113,9 +113,9 @@ namespace Grid
         }
 
         [ContextMenu ("Rotate object")]
-        public void RotateObject()
+        public bool RotateObject()
         {
-            if (_rotatetable == false) return;
+            if (_rotatetable == false) return false;
 
             var x = _x;
             _x = _y;
@@ -129,6 +129,8 @@ namespace Grid
 
             foreach (var grid in _grids)
                 grid.Rotate();
+
+            return true;
         }
 
 #if UNITY_EDITOR

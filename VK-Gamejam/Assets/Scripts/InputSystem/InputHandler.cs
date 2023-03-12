@@ -8,6 +8,7 @@ namespace InputSystem
     {
         [SerializeField] private EventReference _pickupSound;
         [SerializeField] private EventReference _placeSound;
+        [SerializeField] private EventReference _rotateSound;
 
         private GridsKeeper _gridsKeeper;
         private Camera _camera;
@@ -40,7 +41,9 @@ namespace InputSystem
             {
                 _objectInHand.Move(curcourPoint);
                 if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Mouse1))
+                {
                     RotateObjectInHand();
+                }
             }
                 
 
@@ -69,7 +72,8 @@ namespace InputSystem
 
         public void RotateObjectInHand()
         {
-            _objectInHand.RotateObject();
+            if (_objectInHand.RotateObject())
+                RuntimeManager.PlayOneShot(_rotateSound);
         }
 
         public bool TakeObjectInHand(PlaceableObject obj)
