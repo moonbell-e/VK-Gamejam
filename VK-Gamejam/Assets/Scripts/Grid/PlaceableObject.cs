@@ -4,7 +4,13 @@ namespace Grid
 {
     public class PlaceableObject : MonoBehaviour
     {
-        public bool _showGrid;
+        [Header("Score")]
+        [SerializeField] private int _score;
+        [SerializeField] private bool _reverse;
+        [SerializeField] private GridTypes _typeNeeded;
+        [SerializeField] private int _bonus;
+
+        [SerializeField] private bool _showGrid;
 
         [Header("Size")]
         [SerializeField] private int _x;
@@ -17,6 +23,11 @@ namespace Grid
         private GridsKeeper _keeper;
         private Vector2Int _pivotPoint;
 
+
+        public int Score => _score;
+        public bool Reverse => _reverse;
+        public GridTypes Type => _typeNeeded;
+        public int Bonus => _bonus;
         public int X => _x;
         public int Y => _y;
         public Vector2Int PivotPoint => _pivotPoint;

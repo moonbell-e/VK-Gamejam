@@ -15,6 +15,7 @@ namespace Grid
 
         [Header ("GridParameters")]
         [SerializeField] private int _gridLayer;
+        [SerializeField] private GridTypes _type;
 
         private int _additionalLayer;
         private CellKeeper _cells;
@@ -24,6 +25,7 @@ namespace Grid
         public Vector2 LeftCorner => _leftCorner.position;
         public Vector2 RightCorner => _rightCorner.position;
         public int Layer => _gridLayer;
+        public GridTypes Type => _type;
         public bool CanBeMoved => _cells.CanBeMoved;
         public int Size => _cells.X + _cells.Y;
 
@@ -368,5 +370,11 @@ namespace Grid
             if (_cellsTaken == 0) _canBeMoved = true;
             _placedObjects[x, y] = null;
         }
+    }
+
+    public enum GridTypes
+    { 
+        Floor,
+        Table
     }
 }
