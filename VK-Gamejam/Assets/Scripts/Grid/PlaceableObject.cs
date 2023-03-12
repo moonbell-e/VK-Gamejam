@@ -108,6 +108,7 @@ namespace Grid
             _transform.position = point;
         }
 
+        [ContextMenu ("Rotate object")]
         public void RotateObject()
         {
             if (_rotatetable == false) return;
@@ -115,6 +116,9 @@ namespace Grid
             var x = _x;
             _x = _y;
             _y = x;
+
+            if (_sprites == null)
+                _sprites = GetComponentsInChildren<SpriteRenderer>();
 
             foreach (var sprite in _sprites)
                 sprite.flipX = !sprite.flipX;
