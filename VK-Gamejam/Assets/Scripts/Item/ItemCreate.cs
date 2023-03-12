@@ -1,3 +1,4 @@
+using Grid;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -9,6 +10,7 @@ namespace EasyButtons
     public class ItemCreate : MonoBehaviour
     {
         [SerializeField] private GameObject _item;
+        [SerializeField] private GameObject _placeableObject;
         [SerializeField] private string _name;
         [SerializeField] private Sprite _itemSprite;
         [SerializeField] private Sprite _itemFlipped;
@@ -24,19 +26,21 @@ namespace EasyButtons
 
             localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
 
-            PrefabUtility.SaveAsPrefabAssetAndConnect(_item, localPath, InteractionMode.UserAction);
+            PrefabUtility.SaveAsPrefabAssetAndConnect(_placeableObject, localPath, InteractionMode.UserAction);
         }
 
         private void CreateItem()
         {
             Item item = _item.AddComponent<Item>();
+            _placeableObject.AddComponent<PlaceableObject>();
+
+            item.transform.SetParent(_placeableObject.transform);
             item.Initialize(_name, _itemSprite, _itemFlipped, _rotation);
 
             if (_item.TryGetComponent(out SpriteRenderer renderer) != true)
             {
                 SpriteRenderer spriteRender = _item.AddComponent<SpriteRenderer>();
                 spriteRender.sprite = _itemSprite;
-
             }
         }
 
