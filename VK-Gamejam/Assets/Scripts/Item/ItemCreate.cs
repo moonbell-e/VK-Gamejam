@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using static Item;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace EasyButtons
 {
@@ -17,7 +20,7 @@ namespace EasyButtons
         [SerializeField] private IsRotate _rotation;
 
 
-
+#if UNITY_EDITOR
         [Button]
         public void SaveAsPrefab()
         {
@@ -28,6 +31,7 @@ namespace EasyButtons
 
             PrefabUtility.SaveAsPrefabAssetAndConnect(_placeableObject, localPath, InteractionMode.UserAction);
         }
+#endif
 
         private void CreateItem()
         {
