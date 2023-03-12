@@ -15,6 +15,7 @@ namespace Grid
         [Header ("GridParameters")]
         [SerializeField] private int _gridLayer;
 
+        private int _additionalLayer;
         private CellKeeper _cells;
 
         public Vector2 TopCorner => _topCorner.position;
@@ -22,6 +23,7 @@ namespace Grid
         public Vector2 LeftCorner => _leftCorner.position;
         public Vector2 RightCorner => _rightCorner.position;
         public int Layer => _gridLayer;
+        public bool CanBeMoved => _cells.CanBeMoved;
 
         private void Awake()
         {
@@ -33,11 +35,25 @@ namespace Grid
             _cells = new CellKeeper(TopCorner, BottomCorner, LeftCorner, RightCorner);
         }
 
+        public void AddAdditionalLayer(int layer)
+        {
+            _additionalLayer = layer;
+            _gridLayer += _additionalLayer;
+        }
+
+        public void RemoveAdditionalLayer()
+        {
+            _gridLayer -= _additionalLayer;
+            _additionalLayer = 0;
+        }
+
         public bool TryPlaceObject(Vector2 point, PlaceableObject obj)
         {
             if (IsInBorders(point))
             {
-                if (obj.Grid != null && Layer != 0) return false;
+                if (obj.Grid != null && Layer <= _gridLayer) return false;
+                else obj.Grid.AddAdditionalLayer(Layer);
+
                 Vector2Int[,] cellsPoints = new Vector2Int[obj.X, obj.Y];
 
                 var cellPoint = _cells.PointOnCell(point);
@@ -69,8 +85,9 @@ namespace Grid
                 if (_cells.IsEmpty[cellPoint.x, cellPoint.y]) return false;
 
                 obj = _cells.TakeObject(cellPoint.x, cellPoint.y);
-                if (obj.Grid != null) return false;
-                Debug.Log(obj);
+                if (obj.Grid != null && obj.Grid.CanBeMoved == false) return false;
+                else obj.Grid.RemoveAdditionalLayer();
+
                 for (int x = 0; x < obj.X; x++)
                 {
                     for (int y = 0; y < obj.Y; y++)
@@ -191,6 +208,8 @@ namespace Grid
     {
         private Vector2 _topCorner, _bottomCorner, _leftCorner, _rightCorner;
         private int _x, _y;
+        private bool _canBeMoved;
+        private int _cellsTaken;
 
         private Vector2[,] _cellsPivots;
 
@@ -201,6 +220,7 @@ namespace Grid
         public bool[,] IsEmpty => _cellsStatus;
         public int X => _x;
         public int Y => _y;
+        public bool CanBeMoved => _canBeMoved;
 
         public CellKeeper(Vector2 topCorner,
             Vector2 bottomCorner, Vector2 leftCorner, Vector2 rightCorner)
@@ -212,7 +232,9 @@ namespace Grid
 
             _x = Mathf.RoundToInt((_rightCorner.x - _bottomCorner.x) / GridGlobalParameters.SellSizeX);
             _y = Mathf.RoundToInt((_leftCorner.y - _bottomCorner.y) / GridGlobalParameters.SellSizeY);
-            
+
+            _canBeMoved = true;
+            _cellsTaken = 0;
             _cellsPivots = new Vector2[_x,_y];
             _cellsStatus = new bool[_x,_y];
             _placedObjects = new PlaceableObject[_x, _y];
@@ -291,6 +313,8 @@ namespace Grid
         public void PlaceObject(int x, int y, PlaceableObject obj)
         {
             _cellsStatus[x, y] = false;
+            _cellsTaken++;
+            if (_canBeMoved) _canBeMoved = false;
             _placedObjects[x, y] = obj;
         }
 
@@ -302,6 +326,8 @@ namespace Grid
         public void CleareCell(int x, int y)
         {
             _cellsStatus[x, y] = true;
+            _cellsTaken--;
+            if (_cellsTaken == 0) _canBeMoved = true;
             _placedObjects[x, y] = null;
         }
     }

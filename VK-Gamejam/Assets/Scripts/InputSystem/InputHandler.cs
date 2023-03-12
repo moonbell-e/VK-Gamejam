@@ -25,7 +25,7 @@ namespace InputSystem
             Vector2 curcourPoint = _camera.ScreenToWorldPoint(Input.mousePosition);
 
             if (_objectInHand != null)
-                _objectInHand.Place(curcourPoint);
+                _objectInHand.Move(curcourPoint);
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -49,7 +49,11 @@ namespace InputSystem
 
         public bool TakeObjectInHand(PlaceableObject obj)
         {
-            if (obj != null) return false;
+            if (_objectInHand != null)
+            {
+                Debug.Log("fail to take item");
+                return false;
+            }
             _objectInHand = obj;
             return true;
         }

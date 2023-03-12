@@ -37,9 +37,9 @@ namespace Grid
             _grid.GenerateCells();
         }
 
-        public void Place(Vector2 point)
+        public void Move(Vector2 point)
         {
-            point.y -= 0.1f;
+            point.y -= 2 * GridGlobalParameters.SellSizeY;
             _transform.position = point;
         }
 
