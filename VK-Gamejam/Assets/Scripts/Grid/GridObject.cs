@@ -51,14 +51,12 @@ namespace Grid
         {
             if (IsInBorders(point))
             {
-                if (obj.Grid != null && Layer <= _gridLayer) return false;
-                else obj.Grid.AddAdditionalLayer(Layer);
-
                 Vector2Int[,] cellsPoints = new Vector2Int[obj.X, obj.Y];
 
                 var cellPoint = _cells.PointOnCell(point);
 
                 if (cellPoint.x + obj.X > _cells.X || cellPoint.y + obj.Y > _cells.Y) return false;
+                
                 for (int x = 0; x < obj.X; x++)
                 {
                     for (int y = 0; y < obj.Y; y++)
@@ -66,6 +64,12 @@ namespace Grid
                         cellsPoints[x, y] = new Vector2Int(cellPoint.x + x, cellPoint.y + y);
                         if (_cells.IsEmpty[cellPoint.x + x, cellPoint.y + y] == false) return false;
                     }
+                }
+
+                if (obj.Grid != null)
+                {
+                    if (_gridLayer >= obj.Grid.Layer) return false;
+                    else obj.Grid.AddAdditionalLayer(Layer);
                 }
 
                 foreach (Vector2Int cell in cellsPoints)
@@ -85,8 +89,11 @@ namespace Grid
                 if (_cells.IsEmpty[cellPoint.x, cellPoint.y]) return false;
 
                 obj = _cells.TakeObject(cellPoint.x, cellPoint.y);
-                if (obj.Grid != null && obj.Grid.CanBeMoved == false) return false;
-                else obj.Grid.RemoveAdditionalLayer();
+                if (obj.Grid != null)
+                {
+                    if (obj.Grid.CanBeMoved == false) return false;
+                    else obj.Grid.RemoveAdditionalLayer();
+                }
 
                 for (int x = 0; x < obj.X; x++)
                 {

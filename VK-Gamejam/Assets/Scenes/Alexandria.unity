@@ -1672,6 +1672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placeablePrefabs:
   - {fileID: 6130257957185000575, guid: a8c9bc5c961a89d4f8577d12f09c6ba1, type: 3}
+  - {fileID: 6071408039070260828, guid: 9782b531073157746a8161e5a4f6314f, type: 3}
   _handler: {fileID: 201374168}
 --- !u!1 &206663160
 GameObject:
@@ -6452,8 +6453,8 @@ Camera:
   m_GameObject: {fileID: 1253065564}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6469,7 +6470,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
