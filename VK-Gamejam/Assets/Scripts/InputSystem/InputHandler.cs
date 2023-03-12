@@ -47,9 +47,11 @@ namespace InputSystem
             }
         }
 
-        public void TakeObjectInHand(PlaceableObject obj)
+        public bool TakeObjectInHand(PlaceableObject obj)
         {
+            if (obj != null) return false;
             _objectInHand = obj;
+            return true;
         }
     }
 }
