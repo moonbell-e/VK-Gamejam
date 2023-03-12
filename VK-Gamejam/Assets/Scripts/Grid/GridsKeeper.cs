@@ -5,25 +5,26 @@ namespace Grid
 {
     public class GridsKeeper : MonoBehaviour
     {
-        [SerializeField] GridObject _floor;
+        [SerializeField] GridObject[] _startGrids;
 
-        [SerializeField] List<PlaceableObject> _startGrids;
+        [SerializeField] PlaceableObject[] _startPlaceables;
 
         public static int LayerSize;
 
-        private List<GridObject>[] _gridsLayers = new List<GridObject>[10];
+        private List<GridObject>[] _gridsLayers = new List<GridObject>[20];
 
         private void Awake()
         {
             for (int i = 0; i < _gridsLayers.Length; i++)
                 _gridsLayers[i] = new List<GridObject>();
 
-            _gridsLayers[0].Add(_floor);
+            foreach (GridObject grid in _startGrids)
+                _gridsLayers[grid.Layer].Add(grid);
 
-            foreach(var obj in _startGrids)
+            foreach(var obj in _startPlaceables)
                 TryPlaceObject(obj.Position, obj);
 
-            LayerSize = _floor.Size;
+            LayerSize = _gridsLayers[0][0].Size;
         }
 
         public bool TryPlaceObject(Vector2 point, PlaceableObject obj)
