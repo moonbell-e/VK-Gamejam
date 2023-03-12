@@ -15,6 +15,7 @@ public class TutorialSystem : MonoBehaviour
     [SerializeField] private Button _contunieButton;
     [SerializeField] private GameObject _tutorialPanel;
     [SerializeField] private GameObject[] _pointers;
+    [SerializeField] private Image[] _boxes;
 
     [SerializeField] private EventReference text;
 
@@ -23,7 +24,7 @@ public class TutorialSystem : MonoBehaviour
     private void Start()
     {
         if (_tutorialPanel.activeInHierarchy)
-            StartCoroutine(Type());
+            Type();
 
         _contunieButton.onClick.AddListener(() => GoOnNextSentence());
     }
@@ -38,13 +39,13 @@ public class TutorialSystem : MonoBehaviour
         }
     }
 
-    IEnumerator Type()
+    private void Type()
     {
         foreach (char letter in _sentences[index].ToCharArray())
         {
             RuntimeManager.PlayOneShot(text);
             _textDisplay.text += letter;
-            yield return new WaitForSeconds(_typingSpeed);
+            //yield return new WaitForSeconds(_typingSpeed);
         }
     }
 
@@ -56,11 +57,19 @@ public class TutorialSystem : MonoBehaviour
             {
                 index++;
                 _textDisplay.text = "";
-                StartCoroutine(Type());
+                Type();
             }
             else
             {
                 _tutorialPanel.SetActive(false);
+
+                if (_boxes.Length > 0)
+                {
+                    foreach (Image box in _boxes)
+                    {
+                        box.raycastTarget = true;
+                    }
+                }
 
                 if (_pointers.Length > 0)
                     _pointers[0].SetActive(true);
