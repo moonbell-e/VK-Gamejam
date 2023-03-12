@@ -1,10 +1,14 @@
 using UnityEngine;
 using Grid;
+using FMODUnity;
 
 namespace InputSystem
 { 
     public class InputHandler : MonoBehaviour
     {
+        [SerializeField] private EventReference _pickupSound;
+        [SerializeField] private EventReference _placeSound;
+
         private GridsKeeper _gridsKeeper;
         private Camera _camera;
 
@@ -27,12 +31,18 @@ namespace InputSystem
             {
                 if (_objectInHand != null)
                 {
-                    if (_gridsKeeper.TryPlaceObject(curcourPoint, _objectInHand)) _objectInHand = null;
+                    if (_gridsKeeper.TryPlaceObject(curcourPoint, _objectInHand))
+                    {
+                        _objectInHand = null;
+                        RuntimeManager.PlayOneShot(_placeSound);
+                    }
                 } 
                 else
                 {
                     if (_gridsKeeper.TryTakeObject(curcourPoint, out _objectInHand) == false)
                         _objectInHand = null;
+                    else
+                        RuntimeManager.PlayOneShot(_pickupSound);
                 }
             }
         }

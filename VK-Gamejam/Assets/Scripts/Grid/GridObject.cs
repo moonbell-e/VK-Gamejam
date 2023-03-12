@@ -4,6 +4,8 @@ namespace Grid
 {
     public class GridObject : MonoBehaviour
     {
+        [SerializeField] private bool _showGrid;
+
         [Header ("Corners")]
         [SerializeField] private Transform _topCorner;
         [SerializeField] private Transform _bottomCorner;
@@ -105,6 +107,8 @@ namespace Grid
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
+            if (_showGrid == false) return;
+
             int X = Mathf.RoundToInt((RightCorner.x - BottomCorner.x) / GridGlobalParameters.SellSizeX);
             int Y = Mathf.RoundToInt((LeftCorner.y - BottomCorner.y) / GridGlobalParameters.SellSizeY);
 
