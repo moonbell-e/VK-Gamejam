@@ -13,7 +13,7 @@ namespace Grid
         [SerializeField] private GridObject[] _grids;
         
         private Transform _transform;
-        private SpriteRenderer _sprite;
+        private SpriteRenderer[] _sprites;
         private GridsKeeper _keeper;
         private Vector2Int _pivotPoint;
 
@@ -26,7 +26,7 @@ namespace Grid
         private void Awake()
         {
             _transform = transform;
-            _sprite = GetComponentInChildren<SpriteRenderer>();
+            _sprites = GetComponentsInChildren<SpriteRenderer>();
             _keeper = FindObjectOfType<GridsKeeper>();
         }
 
@@ -34,8 +34,8 @@ namespace Grid
         {
             _transform.position = point;
             _pivotPoint = new Vector2Int(x, y);
-            _sprite.sortingOrder = -x - y;
-            _sprite.sortingLayerName = layer.ToString();
+            _sprites[0].sortingOrder = -x - y;
+            _sprites[0].sortingLayerName = layer.ToString();
 
             if (_grids == null) return;
             foreach (var grid in _grids)
@@ -43,6 +43,11 @@ namespace Grid
                 _keeper.AddGrid(grid);
                 grid.GenerateCells();
             }
+        }
+
+        public void TakeItem()
+        {
+            _sprites[0].sortingLayerName = "10";
         }
 
         public void Move(Vector2 point)
@@ -56,6 +61,12 @@ namespace Grid
             var x = _x;
             _x = _y;
             _y = x;
+
+            foreach (var sprite in _sprites)
+                sprite.flipX = !sprite.flipX;
+
+            foreach (var grid in _grids)
+                grid.Rotate();
         }
 
 #if UNITY_EDITOR

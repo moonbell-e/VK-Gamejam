@@ -38,7 +38,12 @@ namespace InputSystem
             Vector2 curcourPoint = _camera.ScreenToWorldPoint(Input.mousePosition);
 
             if (_objectInHand != null)
+            {
                 _objectInHand.Move(curcourPoint);
+                if (Input.GetKeyDown(KeyCode.R))
+                    RotateObjectInHand();
+            }
+                
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -55,9 +60,17 @@ namespace InputSystem
                     if (_gridsKeeper.TryTakeObject(curcourPoint, out _objectInHand) == false)
                         _objectInHand = null;
                     else
+                    {
+                        _objectInHand.TakeItem();
                         RuntimeManager.PlayOneShot(_pickupSound);
+                    } 
                 }
             }
+        }
+
+        public void RotateObjectInHand()
+        {
+            _objectInHand.RotateObject();
         }
 
         public bool TakeObjectInHand(PlaceableObject obj)
@@ -67,6 +80,7 @@ namespace InputSystem
                 Debug.Log("fail to take item");
                 return false;
             }
+            obj.TakeItem();
             _objectInHand = obj;
             return true;
         }

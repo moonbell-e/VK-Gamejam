@@ -32,6 +32,22 @@ namespace Grid
             GenerateCells();
         }
 
+        public void Rotate()
+        {
+            Vector2 leftTop = _topCorner.position - _leftCorner.position;
+            Vector2 leftBottom = _leftCorner.position - _bottomCorner.position;
+            Vector2 rightBottom = _rightCorner.position - _bottomCorner.position;
+            Vector3 pos = Vector3.zero;
+
+            pos = rightBottom * (leftBottom.magnitude / rightBottom.magnitude);
+            _rightCorner.position = _bottomCorner.position + pos;
+            pos = leftBottom * (rightBottom.magnitude / leftBottom.magnitude);
+            _leftCorner.position = _bottomCorner.position + pos;
+            pos = leftTop * (leftBottom.magnitude / rightBottom.magnitude);
+            _topCorner.position = _leftCorner.position + pos;
+            GenerateCells();
+        }
+
         public void GenerateCells()
         {
             _cells = new CellKeeper(TopCorner, BottomCorner, LeftCorner, RightCorner);
