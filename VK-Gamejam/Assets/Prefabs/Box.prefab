@@ -150,11 +150,11 @@ MonoBehaviour:
   _objects: []
   _openBox:
     Guid:
-      Data1: -419121714
-      Data2: 1285202724
-      Data3: 2087204241
-      Data4: 1914333216
-    Path: event:/SFX/openbox
+      Data1: 542947520
+      Data2: 1260465465
+      Data3: -112926579
+      Data4: 840887983
+    Path: event:/SFX/pull
   _closeBox:
     Guid:
       Data1: 646634972
