@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | {{{ PRODUCT_NAME }}}</title>
+    <style>
+      @font-face {
+          font-family: "VK Sans Display";
+          src: url("5795a47e252d16c82bb79fa354b224db.eot"); /* IE9*/
+          src: url("5795a47e252d16c82bb79fa354b224db.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+          url("5795a47e252d16c82bb79fa354b224db.woff2") format("woff2"), /* chrome、firefox */
+          url("5795a47e252d16c82bb79fa354b224db.woff") format("woff"), /* chrome、firefox */
+          url("5795a47e252d16c82bb79fa354b224db.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+          url("5795a47e252d16c82bb79fa354b224db.svg#VK Sans Display") format("svg"); /* iOS 4.1- */
+        }
+
+        a,
+        a:hover,
+        a:active,
+        a::before {
+            /* text-decoration: none; */
+            color: #0077ff;
+        }
+
+        body {
+            margin: 0 auto;
+            background-color: #222222;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .game {
+            background-color: white;
+            height: 100%;
+            width: 100%;
+            min-width: 1136px;
+            min-height: 640px;
+        }
+
+        .topBar {
+            height: 50px;
+            max-width: 1027px;
+            width: 100%;
+        }
+
+        .appName {
+
+        }
+
+        .links {
+            color: #0077ff;
+        }
+
+        footer {
+            height: 55px;
+            font-family: 'VK Sans Display';
+            font-size: 16px;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            color: white;
+            width: 100%;
+        }
+         #unity-canvas {
+            width: 75%;
+            min-width: 408px;
+            aspect-ratio: auto 175/102;
+            position: relative;
+            z-index: 10;
+        }
+        .lds-ring {
+          display: inline-block;
+          position: absolute;
+          top: 35%;
+          left: 50%;
+          transform: translate(-50%, -35%);
+          z-index: 1;
+          width: 80px;
+          height: 80px;
+        }
+        .lds-ring div {
+          box-sizing: border-box;
+          display: block;
+          position: absolute;
+          width: 64px;
+          height: 64px;
+          margin: 8px;
+          border: 8px solid #DEDEDE;
+          border-radius: 50%;
+          animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          border-color: #DEDEDE transparent transparent transparent;
+        }
+        .lds-ring div:nth-child(1) {
+          animation-delay: -0.45s;
+        }
+        .lds-ring div:nth-child(2) {
+          animation-delay: -0.3s;
+        }
+        .lds-ring div:nth-child(3) {
+          animation-delay: -0.15s;
+        }
+        @keyframes lds-ring {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+    
+    </style>
+</head>
+<body>
+    <img src="topbar.png" alt="Панель" class="topBar">
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    <canvas id="unity-canvas"></canvas>
+    <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+    <script>
+        createUnityInstance(document.querySelector("#unity-canvas"), {
+            dataUrl: "Build/{{{ DATA_FILENAME }}}",
+            frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+            #if USE_WASM
+            codeUrl: "Build/{{{ CODE_FILENAME }}}",
+            #endif
+            #if MEMORY_FILENAME
+            memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
+            #endif
+            #if SYMBOLS_FILENAME
+            symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+            #endif
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+        productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+        productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+        //matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+        });
+</script>
+    <footer>
+        <div>Что внутри?</div>
+        <div class="links"><a href='https://vk.com/ilkatkov'>Разработчик</a> ˙ У вас 0 голосов ˙ Действия</div>
+    </footer>
+</body>
+</html>
