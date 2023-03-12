@@ -41,9 +41,9 @@ public class TutorialSystem : MonoBehaviour
 
     private void Type()
     {
+        RuntimeManager.PlayOneShot(text);
         foreach (char letter in _sentences[index].ToCharArray())
         {
-            RuntimeManager.PlayOneShot(text);
             _textDisplay.text += letter;
             //yield return new WaitForSeconds(_typingSpeed);
         }
