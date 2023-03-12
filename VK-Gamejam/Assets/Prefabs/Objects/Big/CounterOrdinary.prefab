@@ -154,7 +154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1921102877972840793, guid: a72430672aefee24bbb96231f9d96c2c, type: 3}
       propertyPath: _gridLayer
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1921102877972840798, guid: a72430672aefee24bbb96231f9d96c2c, type: 3}
       propertyPath: m_RootOrder

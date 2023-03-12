@@ -99,7 +99,8 @@ namespace Grid
 
         public void TakeItem()
         {
-            _sprites[0].sortingLayerName = "10";
+            if (_sprites.Length == 1 && _type != PlaceableTypes.Large)
+                _sprites[0].sortingLayerName = "10";
         }
 
         public void Move(Vector2 point)
