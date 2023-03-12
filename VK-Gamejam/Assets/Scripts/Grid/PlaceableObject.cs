@@ -4,6 +4,8 @@ namespace Grid
 {
     public class PlaceableObject : MonoBehaviour
     {
+        public bool _showGrid;
+
         [Header("Size")]
         [SerializeField] private int _x;
         [SerializeField] private int _y;
@@ -42,8 +44,10 @@ namespace Grid
         }
 
 #if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
+            if (_showGrid == false) return;
+
             if (_x == 0 || _y == 0) return;
             if (_transform == null) _transform = transform;
 
