@@ -86,8 +86,11 @@ namespace Grid
         {
             _transform.position = point;
             _pivotPoint = new Vector2Int(x, y);
-            _sprites[0].sortingOrder = -x - y;
-            _sprites[0].sortingLayerName = layer.ToString();
+            if (_sprites.Length == 1 && _type != PlaceableTypes.Large)
+            {
+                _sprites[0].sortingOrder = -x - y;
+                _sprites[0].sortingLayerName = layer.ToString();
+            }
 
             if (_grids == null) return;
             foreach (var grid in _grids)
