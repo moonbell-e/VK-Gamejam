@@ -8,9 +8,15 @@ using UnityEngine;
 public class Box : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _objects;
+    private ParticleSystem _puff;
     public List<GameObject> Objects => _objects;
 
     private float _timeUpdateAlpha = 0.02f;
+
+    private void Start()
+    {
+        _puff = transform.GetChild(0).GetComponent<ParticleSystem>();
+    }
 
     private void OnMouseDown()
     {
@@ -23,7 +29,7 @@ public class Box : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            StartCoroutine(BoxDisappearing(gameObject.GetComponent<SpriteRenderer>()));
         }
     }
 
@@ -31,7 +37,8 @@ public class Box : MonoBehaviour
     {
         GameObject spawnObj = Instantiate(obj);
         spawnObj.transform.position = gameObject.transform.position;
-        StartCoroutine(AnimateInstantiation(spawnObj));
+        SpriteRenderer renderer = spawnObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        StartCoroutine(AnimationInstantiation(renderer));
         return spawnObj.GetComponent<PlaceableObject>(); ;
     }
 
@@ -40,9 +47,8 @@ public class Box : MonoBehaviour
         return _objects[Random.Range(0, _objects.Count)];
     }
 
-    private IEnumerator AnimateInstantiation(GameObject obj)
+    private IEnumerator AnimationInstantiation(SpriteRenderer spriteRenderer)
     {
-        SpriteRenderer spriteRenderer= obj.transform.GetChild(0).GetComponent<SpriteRenderer>();
         spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
         float alpha = 0f;
 
@@ -54,6 +60,24 @@ public class Box : MonoBehaviour
 
             yield return new WaitForSeconds(_timeUpdateAlpha);
         }
+    }
 
+
+    private IEnumerator BoxDisappearing(SpriteRenderer spriteRenderer)
+    {
+        spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+        float alpha = 1f;
+
+        while (spriteRenderer.color.a >= 0)
+        {
+            alpha -= 0.05f;
+
+            spriteRenderer.color = new Color(1f, 1f, 1f, alpha);
+
+            yield return new WaitForSeconds(_timeUpdateAlpha);
+        }
+        _puff.Play();
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
 }
