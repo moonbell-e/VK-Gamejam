@@ -12,8 +12,8 @@ public class MenuSystem : MonoBehaviour
     [SerializeField] private GameObject _settingsPanel;
     private FMOD.Studio.Bus _busMusic;
     private FMOD.Studio.Bus _busSound;
-    public string _vcaMusicName;
-    public string _vcaSoundName;
+    public string _busMusicName;
+    public string _busSoundName;
 
 
     private bool _isFullscreen;
@@ -24,8 +24,8 @@ public class MenuSystem : MonoBehaviour
 
     private void Start()
     {
-        _busMusic = FMODUnity.RuntimeManager.GetBus("bus:/" + _vcaMusicName);
-        _busSound = FMODUnity.RuntimeManager.GetBus("bus:/" + _vcaSoundName);
+        _busMusic = FMODUnity.RuntimeManager.GetBus("bus:/" + _busMusicName);
+        _busSound = FMODUnity.RuntimeManager.GetBus("bus:/" + _busSoundName);
         _fullscreenButton.onClick.AddListener(() => { SetFullScreen(); });
     }
 

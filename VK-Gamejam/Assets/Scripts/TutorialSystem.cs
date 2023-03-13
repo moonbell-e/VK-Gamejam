@@ -11,11 +11,11 @@ public class TutorialSystem : MonoBehaviour
     [TextArea(2, 5)]
     [SerializeField] private string[] _sentences;
 
-    [SerializeField] private float _typingSpeed;
     [SerializeField] private Button _contunieButton;
     [SerializeField] private GameObject _tutorialPanel;
+    [SerializeField] private GameObject _homeButton;
     [SerializeField] private GameObject[] _pointers;
-    [SerializeField] private Image[] _boxes;
+    [SerializeField] private Box[] _boxes;
 
     [SerializeField] private EventReference text;
 
@@ -45,7 +45,6 @@ public class TutorialSystem : MonoBehaviour
         foreach (char letter in _sentences[index].ToCharArray())
         {
             _textDisplay.text += letter;
-            //yield return new WaitForSeconds(_typingSpeed);
         }
     }
 
@@ -62,15 +61,6 @@ public class TutorialSystem : MonoBehaviour
             else
             {
                 _tutorialPanel.SetActive(false);
-
-                if (_boxes.Length > 0)
-                {
-                    foreach (Image box in _boxes)
-                    {
-                        box.raycastTarget = true;
-                    }
-                }
-
                 if (_pointers.Length > 0)
                     _pointers[0].SetActive(true);
             }
