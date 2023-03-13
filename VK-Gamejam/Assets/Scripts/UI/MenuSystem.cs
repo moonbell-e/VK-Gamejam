@@ -47,7 +47,7 @@ public class MenuSystem : MonoBehaviour
     public void SetFullScreen()
     {
         _isFullscreen = !_isFullscreen;
-        Screen.fullScreen = !_isFullscreen;
+        Screen.fullScreen = _isFullscreen;
         PlayButtonPushSound();
     }
 
