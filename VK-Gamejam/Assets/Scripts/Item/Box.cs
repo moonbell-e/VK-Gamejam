@@ -46,6 +46,7 @@ public class Box : MonoBehaviour
         }
         else
         {
+            this.GetComponent<Image>().raycastTarget = false;
             StartCoroutine(BoxDisappearing(gameObject.GetComponent<Image>()));
         }
     }
