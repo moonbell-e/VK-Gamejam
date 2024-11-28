@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 428486525}
   - component: {fileID: 428486524}
   - component: {fileID: 428486523}
+  - component: {fileID: 428486526}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -409,6 +410,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428486521}
   m_CullTransparentMesh: 1
+--- !u!114 &428486526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428486521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b897cb64573153449a797b6b78792fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundPath:
+    Guid:
+      Data1: -1265639467
+      Data2: 1332143926
+      Data3: 230693006
+      Data4: -8287266
+    Path: event:/music/music_all
 --- !u!1 &468389859
 GameObject:
   m_ObjectHideFlags: 0
